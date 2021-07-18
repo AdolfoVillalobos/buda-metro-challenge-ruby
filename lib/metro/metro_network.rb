@@ -39,6 +39,10 @@ module Metro
       @stations_adjacency.has_key?(v)
     end
 
+    def get_color(v)
+      @stations_color[v]
+    end
+
     def each_neighbor(station, &a)
       neighbors = @stations_adjacency[station]
       neighbors.each(&a)

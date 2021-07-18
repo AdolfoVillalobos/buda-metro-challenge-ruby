@@ -13,6 +13,6 @@ group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'pry'
-  gem 'pry-remote'
   gem 'pry-nav'
+  gem 'pry-remote'
 end

@@ -2,14 +2,16 @@ module Metro
   class EdgeCostMap
     attr_accessor :cost_dict
 
-    def initialize
+    def initialize(graph)
       @cost_dict = {}
+      @colors = graph.stations_color
+      @adjacencies = graph.stations_adjacency
     end
 
-    def edge_cost(target, train_color, colors)
+    def edge_cost(target, train_color)
       return 1 if train_color == 0
-      return 1 if train_color == colors[target]
-      return 1 if colors[target] == 0
+      return 1 if train_color == @colors[target]
+      return 1 if @colors[target] == 0
 
       0
     end
@@ -22,15 +24,13 @@ module Metro
       return @cost_dict[[a, b]] if @cost_dict.has_key?([a, b])
     end
 
-    def self.build(adjacencies, colors, train_color)
-      map = new
-      adjacencies.each do |station, adjList|
+    def build(train_color)
+      @adjacencies.each do |station, adjList|
         adjList.each do |neighbor|
-          cost = map.edge_cost(neighbor, train_color, colors)
-          map.add_edge_cost(station, neighbor, cost)
+          cost = edge_cost(neighbor, train_color)
+          add_edge_cost(station, neighbor, cost)
         end
       end
-      map
     end
   end
 end
