@@ -17,8 +17,8 @@ module Metro
     end
 
     def initialize
-      @stations_adjacency = Hash.new()
-      @stations_color = Hash.new()
+      @stations_adjacency = {}
+      @stations_color = {}
     end
 
     def add_station(v)

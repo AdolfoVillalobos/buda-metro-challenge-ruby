@@ -11,7 +11,8 @@ module Metro
       else
         parent = @parents[target]
         return recover_path(parent) + [target] if parent
-        return []
+
+        []
       end
     end
   end

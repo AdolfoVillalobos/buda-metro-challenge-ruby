@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe Metro::MetroShortestPath do
-
   def mock_shortest_path
     described_class
       .new(graph)
@@ -10,16 +9,16 @@ RSpec.describe Metro::MetroShortestPath do
 
   let(:stations) do
     [
-      {name: 'A', neighbors: ['B'], color: 0},
-      {name: 'B', neighbors: ['A', 'C'], color: 0},
-      {name: 'C', neighbors: ['B', 'D', 'G'], color: 0},
-      {name: 'D', neighbors: ['C', 'E'], color: 0},
-      {name: 'E', neighbors: ['D', 'F'], color: 0},
-      {name: 'F', neighbors: ['E', 'I'], color: 0},
-      {name: 'G', neighbors: ['C', 'H'], color: 1},
-      {name: 'H', neighbors: ['G', 'I'], color: 2},
-      {name: 'I', neighbors: ['H', 'F'], color: 1},
-      {name: 'J', neighbors: [], color: 0}
+      { name: 'A', neighbors: ['B'], color: 0 },
+      { name: 'B', neighbors: %w[A C], color: 0 },
+      { name: 'C', neighbors: %w[B D G], color: 0 },
+      { name: 'D', neighbors: %w[C E], color: 0 },
+      { name: 'E', neighbors: %w[D F], color: 0 },
+      { name: 'F', neighbors: %w[E I], color: 0 },
+      { name: 'G', neighbors: %w[C H], color: 1 },
+      { name: 'H', neighbors: %w[G I], color: 2 },
+      { name: 'I', neighbors: %w[H F], color: 1 },
+      { name: 'J', neighbors: [], color: 0 }
     ]
   end
   let(:source) { 'A' }
@@ -30,18 +29,18 @@ RSpec.describe Metro::MetroShortestPath do
   describe '#shortest_path' do
     describe 'base network from buda challenge' do
       context 'when train has no color' do
-        it { expect(mock_shortest_path).to eq(['A', 'B', 'C', 'D', 'E', 'F']) }
+        it { expect(mock_shortest_path).to eq(%w[A B C D E F]) }
       end
 
       context 'when train is green' do
         let(:train_color) { 1 }
-        it { expect(mock_shortest_path).to eq(['A', 'B', 'C', 'D', 'E', 'F']).or eq(['A', 'B', 'C', 'G', 'I', 'F']) }
+        it { expect(mock_shortest_path).to eq(%w[A B C D E F]).or eq(%w[A B C G I F]) }
       end
 
       context 'when train is red' do
         let(:train_color) { 2 }
-        it "" do
-          expect(mock_shortest_path).to eq(['A', 'B', 'C', 'H', 'F'])
+        it '' do
+          expect(mock_shortest_path).to eq(%w[A B C H F])
         end
       end
 
@@ -54,7 +53,7 @@ RSpec.describe Metro::MetroShortestPath do
       context 'when train cant stop at target' do
         let(:target) { 'G' }
         let(:train_color) { 2 }
-        it "" do
+        it '' do
           expect(mock_shortest_path).to eq([])
         end
       end
@@ -62,7 +61,7 @@ RSpec.describe Metro::MetroShortestPath do
       context 'when train cant start from source' do
         let(:source) { 'G' }
         let(:train_color) { 2 }
-        it "",  :focus => true do
+        it '', focus: true do
           expect(mock_shortest_path).to eq([])
         end
       end

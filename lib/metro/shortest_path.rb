@@ -17,6 +17,7 @@ module Metro
 
     def shortest_path(source, target, train_color)
       return [] if train_cant_start(source, train_color)
+
       setup(source)
       @edge_cost_map.build(train_color)
       bfs(target)
@@ -60,15 +61,16 @@ module Metro
 
     def clear_path(path, source, target)
       cleared_path = [source]
-      path.each_with_index do |x, i|
-        cleared_path.push(path[i]) if @edge_cost_map.get_edge_cost(path[i-1], path[i]) == 1
+      path.each_with_index do |_x, i|
+        cleared_path.push(path[i]) if @edge_cost_map.get_edge_cost(path[i - 1], path[i]) == 1
       end
-      return cleared_path if cleared_path.include?(source) and cleared_path.include?(target)
-      return []
+      return cleared_path if cleared_path.include?(source) && cleared_path.include?(target)
+
+      []
     end
 
     def train_cant_start(source, train_color)
-      @graph.get_color(source) !=0 and train_color !=0 and train_color != @graph.get_color(source)
+      @graph.get_color(source) != 0 and train_color != 0 and train_color != @graph.get_color(source)
     end
   end
 end
