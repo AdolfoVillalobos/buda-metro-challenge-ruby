@@ -17,8 +17,8 @@ module Metro
     end
 
     def initialize
-      @stations_adjacency = {}
-      @stations_color = {}
+      @stations_adjacency = Hash.new()
+      @stations_color = Hash.new()
     end
 
     def add_station(v)
@@ -37,6 +37,10 @@ module Metro
 
     def has_station?(v)
       @stations_adjacency.has_key?(v)
+    end
+
+    def get_color(v)
+      @stations_color[v]
     end
 
     def each_neighbor(station, &a)
