@@ -25,11 +25,8 @@ class Main
     path = shortest_path_finder.shortest_path(args[:source], args[:target],
                                               args[:train_color])
 
-    if path.empty?
-      puts "No routes fround from #{args[:source]} to #{args[:target]}"
-    else
-      puts "Best Route:\n\t #{path.join(' -> ')} "
-    end
+    return "No routes fround from #{args[:source]} to #{args[:target]}" if path.empty?
+    return "Best Route:\n\t #{path.join(' -> ')} "
   end
 
   def self.display_args(args)
@@ -45,5 +42,6 @@ end
 if $PROGRAM_NAME == __FILE__
 
   args = Metro::CommandLineParser.parse(ARGV)
-  Main.run(args)
+  out = Main.run(args)
+  puts out
 end
