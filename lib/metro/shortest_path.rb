@@ -1,5 +1,5 @@
 require 'algorithms'
-require 'metro/recover_path'
+require 'utils/recover_path'
 require 'metro/edge_cost_map'
 
 module Metro
