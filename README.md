@@ -3,11 +3,11 @@
 
 ## Introducción
 
-En este proyecto encuentra la ruta mas corta de una estación `A` a una estación `B` en una **Red de Metro** usando una adaptación del algoritmo [**Breadth First Search (BFS)**](https://en.wikipedia.org/wiki/Breadth-first_search).
+En este proyecto se encuentra **la ruta con menor cantidad de estaciones** entre dos estaciones `A` y `B` de una **Red de Metro** usando una adaptación del algoritmo [**Breadth First Search (BFS)**](https://en.wikipedia.org/wiki/Breadth-first_search).
 
 Modelamos la **Red de Metro** como un grafo dirigido `G(V,E)` en donde las estaciones de metro `V` pueden ser de color: verde, rojo o sin color. Viajar por las conexiones `E` de una estación a otra tiene por defecto un costo de 1.
 
-El **color del tren** puede restringir las estaciones en las cuales este puede detenerse. Al diseñar un algoritmo de ruta optima que permita el salto de estaciones por parte del tren, fijamos el costo en 0 de esas aristas en 0 reduciendo las paradas. Ver [detalles](#algoritmo).
+El **color del tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas. Al diseñar un algoritmo de ruta optima que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible. Ver [Algoritmo](#algoritmo).
 
 
 
@@ -37,9 +37,9 @@ El grafo de la  **Red de Metro** se representa a través de una **Lista de Adjac
 
 El `schema` soportado para el `.json` es:
 
-1. Atributo `metroStations` es un  `Array` no vacio de estaciones de metro.
+1. **metroStations**: `Array` no vacío de estaciones de metro.
 2. Cada estación de metro tiene atributos:
-   1.  **name**: `String` que identifica estación.
+   1.  **name**: `String` que identifica la estación.
    2. **neighbors**: `Array` de vecinos a los cuales se puede llegar en un paso desde la estación.
    3. **color**: `String` que representa el color de la estación. Puede ser `""` si la estación no tiene color, `"V"` si la estación es verde, y `"R"` si la estación es roja.
 
@@ -48,7 +48,7 @@ El programa fallara si el schema no es válido. Ver `lib/utils/schemas/metro_net
 
 ### Setup
 
-La solución se implementa en **Ruby 2.7**. Para instalar las dependencias del `Gemfile` usamos  **bundler**.
+La solución se implementa en **Ruby 2.7**. Al clonar este repositorio, se debe navegar al directorio del proyecto e instalar las dependencias del `Gemfile` usando  **bundler**:
 
 ```sh
 bundle install
@@ -61,7 +61,7 @@ bin/setup
 
 ### Ejecución
 
-Ejecutamos el código usando `bundler exec`
+Ejecutamos el código usando `bundle exec`
 
 
 ```sh
@@ -123,14 +123,38 @@ bundle exec rspec -fd
 
 
 
-## Algoritmo
+## Detalles de la Solución
 
-Las restricciones nos permiten modelar el problema usando un grafo dirigido y entrar la ruta mas corta usando una adaptación de **BFS** para el caso especial en que [los costos de viaje entre nodos son son 0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ).
+### Algoritmo
 
-[Algunas ventajas de **BFS 0-1** son](https://cp-algorithms.com/graph/01_bfs.html):
+Las restricciones nos permiten modelar el problema usando un grafo dirigido y encontrar la ruta mas con menos paradas usando una adaptación de **BFS** para el caso especial en que [los costos de viaje entre nodos son son 0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ).
+
+
+Algunas ventajas de **BFS 0-1** [(ref)](https://cp-algorithms.com/graph/01_bfs.html):
 
 
 1. Su complejidad es `O(V+E)`, menor en comparación a algoritmos mas generales como [**Dijkstra**](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) (complejidad `O((V+E) log(E))`) o [**Bellman-Ford**](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm) (complejidad `O(VE)`).
-2. Se adapta muy bien a nuestro problema y es fácil de implementar usando **listas de adjacencia** y una **Deque** para recorrer las aristas vecinas, poniendo al frente aquellos vecinos que nos permiten saltarnos estaciones.
+2. Se adapta muy bien a nuestro problema y es fácil de implementar usando **listas de adjacencia**.
+3. En oposición a **BFS** tradicional, se usa una **Deque** para recorrer las aristas vecinas, lo cual permite poner al frente aquellos vecinos a costo 0 que nos permiten saltarnos estaciones.
 
 En un escenario mas general, con tiempos variables de viaje de una estación a otra, entonces **Dijkstra**  o [**A***](https://en.wikipedia.org/wiki/A*_search_algorithm#:~:text=A*%20is%20an%20informed%20search,shortest%20time%2C%20etc.) podrían ser una buena alternativa, y se pueden implementar fácilmente.
+
+
+### Estructuras de Datos
+
+#### lib/metro
+
+1. `Metro::MetroNetwork`: Modela la red de metro a partir de un grafo de listas de adyacencia entre estaciones.
+2. `Metro::EdgeCostMap`: Modela el mapeo de costos para cada arista de la red, de acuerdo al color de tren.
+3. `Metro::ShortestPatgh`: Dado una instancia de  `Metro::MetroNetwork` y `Metro::EdgeCostMap`, implementa el algoritmo de ruta mas corta entre `source` y `target`.
+#### lib/utils
+
+1. `Metro::CommandLineParser`: Procesa y valida el input de la linea de comandos.
+2. `Metro::MetroNetworkParser`: Procesa el `.json` de la red de metro.
+3. `Metro::RecoverPath`: Recupera recursivamente la ruta optima a partir de un hash de nodos antecesores.
+
+
+## Referencias
+
+1. Algunas ideas sobre la implementación de **BFS 0-1**: https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/
+2. Discusión sobre la correctitud de **BFS 0-1**: https://cp-algorithms.com/graph/01_bfs.html
