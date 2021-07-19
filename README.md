@@ -146,7 +146,7 @@ En un escenario mas general, con tiempos variables de viaje de una estación a o
 
 1. `Metro::MetroNetwork`: Modela la red de metro a partir de un grafo de listas de adyacencia entre estaciones.
 2. `Metro::EdgeCostMap`: Modela el mapeo de costos para cada arista de la red, de acuerdo al color de tren.
-3. `Metro::ShortestPatgh`: Dado una instancia de  `Metro::MetroNetwork` y `Metro::EdgeCostMap`, implementa el algoritmo de ruta mas corta entre `source` y `target`.
+3. `Metro::ShortestPath`: Dado una instancia de  `Metro::MetroNetwork` y `Metro::EdgeCostMap`, implementa el algoritmo de ruta mas corta entre `source` y `target`.
 #### lib/utils
 
 1. `Metro::CommandLineParser`: Procesa y valida el input de la linea de comandos.

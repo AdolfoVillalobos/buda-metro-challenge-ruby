@@ -7,5 +7,6 @@ require 'utils/recover_path'
 require 'utils/metro_network_parser'
 require 'utils/command_line_parser'
 
+# Metro module.
 module Metro
 end
