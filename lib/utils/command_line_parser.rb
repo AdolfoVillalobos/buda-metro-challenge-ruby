@@ -10,21 +10,21 @@ module Metro
       args = { train_color: 0 }
 
       opt_parser = OptionParser.new do |opts|
-        opts.banner = 'Usage: bundle exec ruby -Ilib bin/example.rb [options]'
+        opts.banner = 'Usage: bundle exec ruby -Ilib script/main.rb -f FILE -s SOURCE -t TARGET -c TRAINCOLOR'
 
-        opts.on('-f', '--file FILE', 'JSON FILE with Metro Network') do |n|
+        opts.on('-f', '--file FILE', 'FILE (json) containing Metro Network (required)') do |n|
           args[:network_file] = n
         end
 
-        opts.on('-s', '--source SOURCE', 'SOURCE Station') do |n|
+        opts.on('-s', '--source SOURCE', 'SOURCE Station (required)') do |n|
           args[:source] = n
         end
 
-        opts.on('-tTARGET', '--target TARGET', 'TARGET Station') do |n|
+        opts.on('-tTARGET', '--target TARGET', 'TARGET Station (required)') do |n|
           args[:target] = n
         end
 
-        opts.on('-c', '--train-color TRAINCOLOR', 'Train Color (Optional)') do |n|
+        opts.on('-c', '--train-color TRAINCOLOR', 'Color of the Train: no, red or green (optional)') do |n|
           args[:train_color] = Metro::CommandLineParser::TRAIN_COLORS[n]
           raise 'TRAIN COLOR not supported' unless Metro::CommandLineParser::TRAIN_COLORS.has_key?(n)
         end
