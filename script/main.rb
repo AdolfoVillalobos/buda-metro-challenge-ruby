@@ -18,7 +18,6 @@ require 'metro/metro_network'
 # - Main outputs the results to the user
 class Main
   def self.run(args)
-    display_args(args)
     data = Metro::MetroNetworkParser.parse(args[:network_file])
     metro = Metro::MetroNetwork.build(*data)
     shortest_path_finder = Metro::MetroShortestPath.new(metro)
@@ -42,6 +41,7 @@ end
 if $PROGRAM_NAME == __FILE__
 
   args = Metro::CommandLineParser.parse(ARGV)
+  Main.display_args(args)
   out = Main.run(args)
   puts out
 end
