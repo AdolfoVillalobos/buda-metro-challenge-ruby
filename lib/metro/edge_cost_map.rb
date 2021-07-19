@@ -16,12 +16,12 @@ module Metro
       0
     end
 
-    def add_edge_cost(a, b, cost)
-      @cost_dict[[a, b]] = cost
+    def add_edge_cost(from, to, cost)
+      @cost_dict[[from, to]] = cost
     end
 
-    def get_edge_cost(a, b)
-      return @cost_dict[[a, b]] if @cost_dict.has_key?([a, b])
+    def get_edge_cost(from, to)
+      return @cost_dict[[from, to]] if @cost_dict.has_key?([from, to])
     end
 
     def build(train_color)
