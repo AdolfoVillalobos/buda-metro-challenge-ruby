@@ -3,18 +3,21 @@
 
 ## Introducción
 
-En este proyecto se encuentra **la ruta con menor cantidad de estaciones** entre dos estaciones `A` y `B` de una **Red de Metro** usando una adaptación del algoritmo [**Breadth First Search (BFS)**](https://en.wikipedia.org/wiki/Breadth-first_search).
+En este proyecto se implementa un programa para encontrar **la ruta con menor cantidad de estaciones** entre dos estaciones `A` y `B` de una **Red de Metro** usando una adaptación de un algoritmo tipo [**Breadth First Search (BFS)**](https://en.wikipedia.org/wiki/Breadth-first_search).
 
-Modelamos la **Red de Metro** como un grafo dirigido `G(V,E)` en donde las estaciones de metro `V` pueden ser de color: verde, rojo o sin color. Viajar por las conexiones `E` de una estación a otra tiene por defecto un costo de 1.
+El **color del tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas. Al diseñar un algoritmo de ruta optima que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible.
+## Decisiones de Diseño
 
-El **color del tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas. Al diseñar un algoritmo de ruta optima que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible. Ver [Algoritmo](#algoritmo).
+Modelamos la **Red de Metro** como un grafo dirigido `G(V,E)` en donde las estaciones de metro `V` pueden ser de color: verde, rojo o sin color. El grafo de la  **Red de Metro** se representa a través de una **Lista de Adjacencia** en un archivo `.json`.
 
+Usar **Lista de Adjacencia** como estructura de datos permite implementar algoritmos tipo **BFS** de manera muy sencilla para encontrar rutas mas cortas, y usar archivos tipo `.json` nos permite leer y validar la data de manera confiable.
 
+En nuestro algoritmo de ruta optima, adaptamos **BFS** al caso en que las aristas del grafo [tienen costos  0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ). Esta estrategia *ad-hoc* nos entrega un algoritmo con complejidad `O(V+E)` bastante sencillo de implementar.
+
+Por el momento, descartamos algoritmos como **Dijkstra, Bellman-Ford o A***, que se adaptan muy bien a casos mas generales, pero suelen ser mas complejos de implementar, o bien pueden tener peor complejidad en tiempo/espacio. En nuestro caso, dado que tenemos un grafo muy especial, decidimos aprovechar dicha regularidad. Ver [Algoritmo](#algoritmo) para mas detalles.
 
 ## Input Red de Metro
 
-
-El grafo de la  **Red de Metro** se representa a través de una **Lista de Adjacencia**, la cual se ingresa en un archivo `.json`:
 
 ```json
 //data/base.json
@@ -127,26 +130,21 @@ bundle exec rspec -fd
 
 ### Algoritmo
 
-Las restricciones nos permiten modelar el problema usando un grafo dirigido y encontrar la ruta mas con menos paradas usando una adaptación de **BFS** para el caso especial en que [los costos de viaje entre nodos son son 0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ).
+Las restricciones nos permiten modelar el problema usando un grafo dirigido y encontrar la ruta  con menos estaciones usando una adaptación de **BFS** para el caso especial en que [los costos de viaje entre nodos son son 0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ).
 
 
-Algunas ventajas de **BFS 0-1** [(ref)](https://cp-algorithms.com/graph/01_bfs.html):
+Su complejidad es `O(V+E)`, menor en comparación a algoritmos mas generales como [**Dijkstra**](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) (complejidad `O((V+E) log(E))`) o [**Bellman-Ford**](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm) (complejidad `O(VE)`). Esto lo logra imitando el `Heap` de  **Dijkstra**  al usar una **Deque** para recorrer las aristas vecinas, lo cual permite dar prioridad a aquellos vecinos a costo 0 que nos permiten saltarnos estaciones [(ref)](https://cp-algorithms.com/graph/01_bfs.html).
 
-
-1. Su complejidad es `O(V+E)`, menor en comparación a algoritmos mas generales como [**Dijkstra**](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) (complejidad `O((V+E) log(E))`) o [**Bellman-Ford**](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm) (complejidad `O(VE)`).
-2. Se adapta muy bien a nuestro problema y es fácil de implementar usando **listas de adjacencia**.
-3. En oposición a **BFS** tradicional, se usa una **Deque** para recorrer las aristas vecinas, lo cual permite poner al frente aquellos vecinos a costo 0 que nos permiten saltarnos estaciones.
-
-En un escenario mas general, con tiempos variables de viaje de una estación a otra, entonces **Dijkstra**  o [**A***](https://en.wikipedia.org/wiki/A*_search_algorithm#:~:text=A*%20is%20an%20informed%20search,shortest%20time%2C%20etc.) podrían ser una buena alternativa, y se pueden implementar fácilmente.
+En un escenario mas general, por ejemplo con tiempos variables de viaje de una estación a otra,  **Dijkstra**  o [**A***](https://en.wikipedia.org/wiki/A*_search_algorithm#:~:text=A*%20is%20an%20informed%20search,shortest%20time%2C%20etc.) podrían ser una mejor alternativa.
 
 
 ### Estructuras de Datos
 
 #### lib/metro
 
-1. `Metro::MetroNetwork`: Modela la red de metro a partir de un grafo de listas de adyacencia entre estaciones.
-2. `Metro::EdgeCostMap`: Modela el mapeo de costos para cada arista de la red, de acuerdo al color de tren.
-3. `Metro::ShortestPath`: Dado una instancia de  `Metro::MetroNetwork` y `Metro::EdgeCostMap`, implementa el algoritmo de ruta mas corta entre `source` y `target`.
+1. `Metro::MetroNetwork`: Modela la Red de Metro como un grafo a partir de listas de adyacencia entre estaciones de metro.
+2. `Metro::EdgeCostMap`: Genera un mapeo de costos para cada arista de la red, de acuerdo al color de tren.
+3. `Metro::ShortestPath`: Dado una instancia de  `Metro::MetroNetwork` y `Metro::EdgeCostMap`, implementa el algoritmo de ruta con menos estaciones entre `source` y `target`.
 #### lib/utils
 
 1. `Metro::CommandLineParser`: Procesa y valida el input de la linea de comandos.
