@@ -26,6 +26,19 @@ RSpec.describe Metro::MetroNetwork do
     end
   end
 
+  describe '#has_station?' do
+    before do
+      metro.add_station(station[:name])
+    end
+    context 'when station exists' do
+      it { expect(metro.has_station?('A')).to eq(true) }
+    end
+
+    context 'when station does not exists' do
+      it { expect(metro.has_station?('Z')).to eq(false) }
+    end
+  end
+
   describe '#build' do
     let(:stations) do
       [

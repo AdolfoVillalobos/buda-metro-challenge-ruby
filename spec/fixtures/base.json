@@ -1,0 +1,54 @@
+{
+  "metroStations": [
+    {
+      "name": "A",
+      "neighbors": ["B"],
+      "color": 0
+    },
+    {
+      "name": "B",
+      "neighbors": ["A", "C"],
+      "color": 0
+    },
+    {
+      "name": "C",
+      "neighbors": ["B", "D", "G"],
+      "color": 0
+    },
+    {
+      "name": "D",
+      "neighbors": ["C", "E"],
+      "color": 0
+    },
+    {
+      "name": "E",
+      "neighbors": ["D", "F"],
+      "color": 0
+    },
+    {
+      "name": "F",
+      "neighbors": ["E", "I"],
+      "color": 0
+    },
+    {
+      "name": "G",
+      "neighbors": ["C", "H"],
+      "color": 1
+    },
+    {
+      "name": "H",
+      "neighbors": ["G", "I"],
+      "color": 2
+    },
+    {
+      "name": "I",
+      "neighbors": ["H", "F"],
+      "color": 1
+    },
+    {
+      "name": "J",
+      "neighbors": [],
+      "color": 0
+    }
+  ]
+}

@@ -21,12 +21,12 @@ module Metro
       @stations_color = {}
     end
 
-    def add_station(v)
-      @stations_adjacency[v] ||= Set.new
+    def add_station(station)
+      @stations_adjacency[station] ||= Set.new
     end
 
-    def add_station_color(v, color)
-      @stations_color[v] ||= color
+    def add_station_color(station, color)
+      @stations_color[station] ||= color
     end
 
     def add_edge(source, target)
@@ -35,12 +35,12 @@ module Metro
       @stations_adjacency[source].add(target)
     end
 
-    def has_station?(v)
-      @stations_adjacency.has_key?(v)
+    def has_station?(station)
+      @stations_adjacency.has_key?(station)
     end
 
-    def get_color(v)
-      @stations_color[v]
+    def get_color(station)
+      @stations_color[station]
     end
 
     def each_neighbor(station, &a)
