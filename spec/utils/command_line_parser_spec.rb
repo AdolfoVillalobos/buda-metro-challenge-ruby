@@ -17,7 +17,7 @@ RSpec.describe Metro::CommandLineParser do
           }
         end
         it 'returs parsed args' do
-           expect(parse).to eq(output)
+          expect(parse).to eq(output)
         end
       end
       context 'when train color is not given' do
@@ -31,7 +31,7 @@ RSpec.describe Metro::CommandLineParser do
           }
         end
         it 'returs parsed args with default value for train color' do
-         expect(parse).to eq(output)
+          expect(parse).to eq(output)
         end
       end
     end

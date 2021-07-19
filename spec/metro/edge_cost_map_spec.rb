@@ -79,7 +79,7 @@ RSpec.describe Metro::EdgeCostMap do
     let(:cost) { 0 }
     it 'adds edge cost' do
       edge_cost_map.add_edge_cost('A', 'B', cost)
-      expect( edge_cost_map.cost_dict[['A', 'B']]). to eq(cost)
+      expect(edge_cost_map.cost_dict[%w[A B]]).to eq(cost)
     end
   end
 
@@ -88,11 +88,11 @@ RSpec.describe Metro::EdgeCostMap do
       edge_cost_map.add_edge_cost('A', 'B', 5)
     end
     context 'when edge exists' do
-      it {expect(edge_cost_map.get_edge_cost('A', 'B')).to eq(5)}
+      it { expect(edge_cost_map.get_edge_cost('A', 'B')).to eq(5) }
     end
 
     context 'when edge does not exists' do
-      it {expect(edge_cost_map.get_edge_cost('A', 'C')).to eq(nil)}
+      it { expect(edge_cost_map.get_edge_cost('A', 'C')).to eq(nil) }
     end
   end
 end

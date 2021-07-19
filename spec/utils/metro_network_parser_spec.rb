@@ -59,7 +59,6 @@ RSpec.describe Metro::MetroNetworkParser do
   end
 
   describe 'self.parse' do
-
     def parse
       described_class.parse(filename)
     end
@@ -67,22 +66,22 @@ RSpec.describe Metro::MetroNetworkParser do
     let(:filename) { 'spec/fixtures/base.json' }
 
     context 'when valid input file' do
-      it { expect(parse).to be_a(Array)}
+      it { expect(parse).to be_a(Array) }
     end
 
     context 'when file does not exist' do
       let(:filename) { 'dfgejhgfjh' }
-      it { expect{parse}.to raise_error( Errno::ENOENT)}
+      it { expect { parse }.to raise_error(Errno::ENOENT) }
     end
 
     context 'when file cannot be parsed as JSON' do
       let(:filename) { 'spec/fixtures/bad_json.json' }
-      it { expect{parse}.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON')}
+      it { expect { parse }.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON') }
     end
 
     context 'when file is empty' do
       let(:filename) { 'spec/fixtures/empty_file' }
-      it { expect{parse}.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON')}
+      it { expect { parse }.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON') }
     end
   end
 end
