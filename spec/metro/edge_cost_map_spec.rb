@@ -28,7 +28,7 @@ RSpec.describe Metro::EdgeCostMap do
           %w[D E] => 1
         }
       end
-      it 'creates correct costs for edges' do
+      it 'edge costs are 1' do
         edge_cost_map.build(train_color)
         expect(edge_cost_map.cost_dict).to eq(output_cost_map)
       end
@@ -48,7 +48,7 @@ RSpec.describe Metro::EdgeCostMap do
           %w[D E] => 0
         }
       end
-      it 'creates correct costs for edges' do
+      it 'cost to unsupported stations is 0' do
         edge_cost_map.build(train_color)
         expect(edge_cost_map.cost_dict).to eq(output_cost_map)
       end
@@ -68,7 +68,7 @@ RSpec.describe Metro::EdgeCostMap do
           %w[D E] => 0
         }
       end
-      it 'creates correct costs for edges' do
+      it 'cost to unsupported stations is 0' do
         edge_cost_map.build(train_color)
         expect(edge_cost_map.cost_dict).to eq(output_cost_map)
       end

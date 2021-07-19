@@ -16,7 +16,9 @@ RSpec.describe Metro::CommandLineParser do
             target: 'F'
           }
         end
-        it { expect(parse).to eq(output) }
+        it 'returs parsed args' do
+           expect(parse).to eq(output)
+        end
       end
       context 'when train color is not given' do
         let(:argv) { %w[-f data/base.json -s A -t F] }
@@ -28,7 +30,9 @@ RSpec.describe Metro::CommandLineParser do
             target: 'F'
           }
         end
-        it { expect(parse).to eq(output) }
+        it 'returs parsed args with default value for train color' do
+         expect(parse).to eq(output)
+        end
       end
     end
 

@@ -12,7 +12,7 @@ RSpec.describe Metro::MetroNetworkParser do
     def is_valid
       described_class.is_valid_schema?(hash)
     end
-    context 'when input schema is valid' do
+    context 'when json schema is valid' do
       let(:hash) do
         { 'metroStations' => [
           { 'name' => 'A', "neighbors": %w[C B], 'color' => 0 }
@@ -55,6 +55,34 @@ RSpec.describe Metro::MetroNetworkParser do
         end
         it { expect(is_valid).to eq(false) }
       end
+    end
+  end
+
+  describe 'self.parse' do
+
+    def parse
+      described_class.parse(filename)
+    end
+
+    let(:filename) { 'spec/fixtures/base.json' }
+
+    context 'when valid input file' do
+      it { expect(parse).to be_a(Array)}
+    end
+
+    context 'when file does not exist' do
+      let(:filename) { 'dfgejhgfjh' }
+      it { expect{parse}.to raise_error( Errno::ENOENT)}
+    end
+
+    context 'when file cannot be parsed as JSON' do
+      let(:filename) { 'spec/fixtures/bad_json.json' }
+      it { expect{parse}.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON')}
+    end
+
+    context 'when file is empty' do
+      let(:filename) { 'spec/fixtures/empty_file' }
+      it { expect{parse}.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON')}
     end
   end
 end
