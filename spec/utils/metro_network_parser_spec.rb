@@ -15,7 +15,7 @@ RSpec.describe Metro::MetroNetworkParser do
     context 'when json schema is valid' do
       let(:hash) do
         { 'metroStations' => [
-          { 'name' => 'A', "neighbors": %w[C B], 'color' => 0 }
+          { 'name' => 'A', "neighbors": %w[C B], 'color' => "" }
         ] }
       end
       it { expect(is_valid).to eq(true) }
@@ -32,7 +32,7 @@ RSpec.describe Metro::MetroNetworkParser do
       context 'when name is missing' do
         let(:hash) do
           { 'metroStations' => [
-            { "neighbors": %w[C B], 'color' => 0 }
+            { "neighbors": %w[C B], 'color' => :NO }
           ] }
         end
         it { expect(is_valid).to eq(false) }
@@ -41,7 +41,7 @@ RSpec.describe Metro::MetroNetworkParser do
       context 'when neighbors are missing' do
         let(:hash) do
           { 'metroStations' => [
-            { 'name' => 'A', 'color' => 0 }
+            { 'name' => 'A', 'color' => :NO }
           ] }
         end
         it { expect(is_valid).to eq(false) }
@@ -55,6 +55,15 @@ RSpec.describe Metro::MetroNetworkParser do
         end
         it { expect(is_valid).to eq(false) }
       end
+
+      context 'when color is not valid' do
+        let(:hash) do
+          { 'metroStations' => [
+            { 'name' => 'A', 'neighbors' => %w[B C], 'color' => "other" }
+          ] }
+        end
+        it { expect(is_valid).to eq(false) }
+      end
     end
   end
 
@@ -63,15 +72,34 @@ RSpec.describe Metro::MetroNetworkParser do
       described_class.parse(filename)
     end
 
-    let(:filename) { 'spec/fixtures/base.json' }
-
     context 'when valid input file' do
-      it { expect(parse).to be_a(Array) }
+    let(:filename) { 'spec/fixtures/base.json' }
+    let(:output) do
+      [
+        {:name=>"A", :neighbors=>["B"], :color=>:NO},
+        {:name=>"B", :neighbors=>["A", "C"], :color=>:NO},
+        {:name=>"C", :neighbors=>["B", "D", "G"], :color=>:GREEN},
+        {:name=>"D", :neighbors=>["C", "E"], :color=>:GREEN},
+        {:name=>"E", :neighbors=>["D", "F"], :color=>:NO},
+        {:name=>"F", :neighbors=>["E", "I"], :color=>:NO},
+        {:name=>"G", :neighbors=>["C", "H"], :color=>:GREEN},
+        {:name=>"H", :neighbors=>["G", "I"], :color=>:RED},
+        {:name=>"I", :neighbors=>["H", "F"], :color=>:GREEN},
+        {:name=>"J", :neighbors=>[], :color=>:NO}
+      ]
+    end
+
+      it { expect(parse).to eq(output) }
     end
 
     context 'when file does not exist' do
       let(:filename) { 'dfgejhgfjh' }
       it { expect { parse }.to raise_error(Errno::ENOENT) }
+    end
+
+    context 'when a station has missing color' do
+      let(:filename) { 'spec/fixtures/missing_color.json' }
+      it { expect { parse }.to raise_error(RuntimeError, 'FILE json schema is not valid') }
     end
 
     context 'when file cannot be parsed as JSON' do
@@ -82,6 +110,11 @@ RSpec.describe Metro::MetroNetworkParser do
     context 'when file is empty' do
       let(:filename) { 'spec/fixtures/empty_file' }
       it { expect { parse }.to raise_error(RuntimeError, 'FILE cannot be parsed as JSON') }
+    end
+
+    context 'when missing stations' do
+      let(:filename) { 'spec/fixtures/missing_stations.json' }
+      it { expect { parse }.to raise_error(RuntimeError, 'FILE json schema is not valid') }
     end
   end
 end

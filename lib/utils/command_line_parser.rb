@@ -4,10 +4,10 @@ require 'optparse'
 
 module Metro
   class CommandLineParser
-    TRAIN_COLORS = { 'green' => 1, 'red' => 2, 'no' => 0 }.freeze
+    TRAIN_COLORS = { 'green' => :GREEN, 'red' => :RED, 'no' => :NO }.freeze
 
     def self.parse(options)
-      args = { train_color: 0 }
+      args = { train_color: :NO }
 
       opt_parser = OptionParser.new do |opts|
         opts.banner = 'Usage: bundle exec ruby -Ilib script/main.rb -f FILE -s SOURCE -t TARGET -c TRAINCOLOR'
