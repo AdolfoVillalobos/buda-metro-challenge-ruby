@@ -12,7 +12,6 @@ module Metro
 
     def initialize(graph)
       @graph = graph
-      @edge_cost_map = EdgeCostMap.new(graph)
       @distance_map = Hash.new(INF)
       @parents = {}
     end
@@ -30,7 +29,7 @@ module Metro
       return [] if train_cant_start(source, train_color)
 
       setup(source)
-      @edge_cost_map.build(train_color)
+      @edge_cost_map = EdgeCostMap.build(@graph, train_color)
       bfs(target)
       path = RecoverPath.new(source, @parents).recover_path(target)
       clear_path(path, source, target)
