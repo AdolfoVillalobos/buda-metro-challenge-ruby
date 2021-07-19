@@ -53,8 +53,15 @@ RSpec.describe Metro::CommandLineParser do
       end
 
       context 'when train color is not supported' do
-        let(:argv) { %w[--file data/base.json --source A --target F --train-color la121lala] }
-        it { expect { parse }.to raise_error(RuntimeError, 'TRAIN COLOR not supported') }
+        let(:argv) do
+          %w[--file data/base.json --source A --target F --train-color
+             la121lala]
+        end
+        it {
+          expect do
+            parse
+          end.to raise_error(RuntimeError, 'TRAIN COLOR not supported')
+        }
       end
     end
   end

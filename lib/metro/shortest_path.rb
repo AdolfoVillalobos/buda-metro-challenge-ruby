@@ -45,18 +45,18 @@ module Metro
       end
     end
 
-    def bfs_visit(u, v)
-      edge_cost = @edge_cost_map.get_edge_cost(u, v)
-      option = @distance_map[u] + edge_cost
+    def bfs_visit(from, to)
+      edge_cost = @edge_cost_map.get_edge_cost(from, to)
+      option = @distance_map[from] + edge_cost
 
-      if @distance_map[v] > option
-        @distance_map[v] = option
-        @parents[v] = u
+      if @distance_map[to] > option
+        @distance_map[to] = option
+        @parents[to] = from
 
         if edge_cost == 0
-          @queue.push_front(v)
+          @queue.push_front(to)
         elsif edge_cost == 1
-          @queue.push_back(v)
+          @queue.push_back(to)
         end
       end
     end
@@ -64,15 +64,19 @@ module Metro
     def clear_path(path, source, target)
       cleared_path = [source]
       path.each_with_index do |_x, i|
-        cleared_path.push(path[i]) if @edge_cost_map.get_edge_cost(path[i - 1], path[i]) == 1
+        cleared_path.push(path[i]) if @edge_cost_map.get_edge_cost(path[i - 1],
+                                                                   path[i]) == 1
       end
-      return cleared_path if cleared_path.include?(source) && cleared_path.include?(target)
+      if cleared_path.include?(source) && cleared_path.include?(target)
+        return cleared_path
+      end
 
       []
     end
 
     def train_cant_start(source, train_color)
-      @graph.get_color(source) != :NO and train_color != :NO and train_color != @graph.get_color(source)
+      @graph.get_color(source) != :NO and \
+        train_color != :NO and train_color != @graph.get_color(source)
     end
   end
 end

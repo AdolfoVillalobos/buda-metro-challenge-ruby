@@ -43,9 +43,9 @@ module Metro
       @stations_color[station]
     end
 
-    def each_neighbor(station, &a)
+    def each_neighbor(station, &func)
       neighbors = @stations_adjacency[station]
-      neighbors.each(&a)
+      neighbors.each(&func)
     end
   end
 end

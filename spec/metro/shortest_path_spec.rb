@@ -34,7 +34,10 @@ RSpec.describe Metro::MetroShortestPath do
 
       context 'when train is green' do
         let(:train_color) { :GREEN }
-        it { expect(mock_shortest_path).to eq(%w[A B C D E F]).or eq(%w[A B C G I F]) }
+        it {
+          expect(mock_shortest_path).to eq(%w[A B C D E
+                                              F]).or eq(%w[A B C G I F])
+        }
       end
 
       context 'when train is red' do
@@ -70,13 +73,21 @@ RSpec.describe Metro::MetroShortestPath do
       context 'when source is not a station' do
         let(:source) { 'X' }
         it do
-          expect { mock_shortest_path }.to raise_error(RuntimeError, 'SOURCE station does not exist')
+          expect do
+            mock_shortest_path
+          end.to raise_error(RuntimeError,
+                             'SOURCE station does not exist')
         end
       end
 
       context 'when target is not a station' do
         let(:target) { 'X' }
-        it { expect { mock_shortest_path }.to raise_error(RuntimeError, 'TARGET station does not exist') }
+        it {
+          expect do
+            mock_shortest_path
+          end.to raise_error(RuntimeError,
+                             'TARGET station does not exist')
+        }
       end
     end
   end

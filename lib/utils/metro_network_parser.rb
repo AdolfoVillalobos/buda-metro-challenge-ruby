@@ -10,9 +10,10 @@ require 'getoptlong'
 
 module Metro
   class MetroNetworkParser
-    JSON_SCHEMA = File.join('lib', 'utils', 'schemas', 'metro_network_schema.json')
-    STATION_COLORS = { "" => :NO, "V" => :GREEN, "R" => :RED }
-    def self.is_valid_schema?(hash)
+    JSON_SCHEMA = File.join('lib', 'utils', 'schemas',
+                            'metro_network_schema.json')
+    STATION_COLORS = { '' => :NO, 'V' => :GREEN, 'R' => :RED }.freeze
+    def self.valid_schema?(hash)
       JSON::Validator.validate(JSON_SCHEMA, hash)
     end
 
@@ -26,11 +27,10 @@ module Metro
         raise 'FILE cannot be parsed as JSON'
       end
 
-      raise 'FILE json schema is not valid' unless is_valid_schema?(hash)
+      raise 'FILE json schema is not valid' unless valid_schema?(hash)
 
       hash = hash['metroStations'].map(&:symbolize_keys)
-      hash = hash.each { |station| station[:color] = STATION_COLORS[station[:color]] }
-      hash
+      hash.each { |station| station[:color] = STATION_COLORS[station[:color]] }
     end
   end
 end

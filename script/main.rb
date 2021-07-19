@@ -7,7 +7,7 @@ require 'metro/metro_network'
 
 class Main
   def self.run(args)
-    self.display_args(args)
+    display_args(args)
     data = Metro::MetroNetworkParser.parse(args[:network_file])
     metro = Metro::MetroNetwork.build(*data)
     shortest_path_finder = Metro::MetroShortestPath.new(metro)
@@ -22,12 +22,12 @@ class Main
   end
 
   def self.display_args(args)
-    puts "Parameters:"
+    puts 'Parameters:'
     puts "\tFILE: #{args[:network_file]}"
     puts "\tSOURCE: #{args[:source]}"
     puts "\tTARGET: #{args[:target]}"
     puts "\tTRAIN COLOR: #{args[:train_color]}"
-    puts "---"
+    puts '---'
   end
 end
 

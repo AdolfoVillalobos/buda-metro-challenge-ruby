@@ -25,8 +25,8 @@ module Metro
     end
 
     def build(train_color)
-      @adjacencies.each do |station, adjList|
-        adjList.each do |neighbor|
+      @adjacencies.each do |station, adj_list|
+        adj_list.each do |neighbor|
           cost = edge_cost(neighbor, train_color)
           add_edge_cost(station, neighbor, cost)
         end
