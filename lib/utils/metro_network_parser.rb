@@ -18,9 +18,14 @@ module Metro
     def self.parse(filename)
       path = File.join(File.dirname(__FILE__), '../..', filename)
       file_content = File.open(path).read
-      hash = JSON.parse(file_content)
 
-      raise 'Invalid JSON' unless is_valid_schema?(hash)
+      begin
+        hash = JSON.parse(file_content)
+      rescue JSON::ParserError
+        raise 'FILE cannot be parsed as JSON'
+      end
+
+      raise 'FILE json schema is not valid' unless is_valid_schema?(hash)
 
       hash['metroStations'].map(&:symbolize_keys)
     end
