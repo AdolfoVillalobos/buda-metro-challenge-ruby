@@ -1,11 +1,18 @@
-# frozen_string_literal: true
+# command_line_parser.rb
 
 require 'optparse'
 
 module Metro
+  # The Metro::CommandLineParser class implements an
+  # utility to:
+  # - Parse the command line arguments given by the user
+  # - Handle missing arguments.
   class CommandLineParser
     TRAIN_COLORS = { 'green' => :GREEN, 'red' => :RED, 'no' => :NO }.freeze
 
+    # Parses the options given by the command line argument
+    # - FILE, SOURCE and TARGET are required arguments.
+    # - TRAINCOLOR is optional (default to :NO).
     def self.parse(options)
       args = { train_color: :NO }
 

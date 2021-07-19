@@ -1,10 +1,21 @@
-# frozen_string_literal: true
+# main.rb 
 
 require 'utils/command_line_parser'
 require 'utils/metro_network_parser'
 require 'metro/shortest_path'
 require 'metro/metro_network'
 
+# The Main class implements the funtionality
+# to read and parse the user input through the CLI,
+# and perform the necesary steps to obtain the shortest path
+#
+# The steps are:
+# - User inputs the required arguments
+# - Metro::CommandLineParser  parses the arguments
+# - Metro::MetroNetworkParser parses the JSON file
+# - Metro::MetroNetwork  builds the Metro graph
+# - Metro::MetroShortestPath finds the path
+# - Main outputs the results to the user
 class Main
   def self.run(args)
     display_args(args)
