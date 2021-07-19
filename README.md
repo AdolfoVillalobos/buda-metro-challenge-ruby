@@ -8,13 +8,11 @@ En este proyecto se implementa un programa para encontrar **la ruta con menor ca
 El **color del tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas. Al diseñar un algoritmo de ruta optima que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible.
 ## Decisiones de Diseño
 
-Modelamos la **Red de Metro** como un grafo dirigido `G(V,E)` en donde las estaciones de metro `V` pueden ser de color: verde, rojo o sin color. El grafo de la  **Red de Metro** se representa a través de una **Lista de Adjacencia** en un archivo `.json`.
+Modelamos la **Red de Metro** como un grafo dirigido `G(V,E)` en donde las estaciones de metro `V` son de color: verde, rojo o sin color. 
 
-Usar **Lista de Adjacencia** como estructura de datos permite implementar algoritmos tipo **BFS** de manera muy sencilla para encontrar rutas mas cortas, y usar archivos tipo `.json` nos permite leer y validar la data de manera confiable.
+El grafo se representa a través de una **Lista de Adjacencia** como estructura de datos  pues esto permite implementar **BFS** de manera muy sencilla para encontrar rutas mas cortas. Guardamos estas listas en archivos `.json` pues son sencillos de leer y validar de manera confiable.
 
-En nuestro algoritmo de ruta optima, adaptamos **BFS** al caso en que las aristas del grafo [tienen costos  0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ). Esta estrategia *ad-hoc* nos entrega un algoritmo con complejidad `O(V+E)` bastante sencillo de implementar.
-
-Por el momento, descartamos algoritmos como **Dijkstra, Bellman-Ford o A***, que se adaptan muy bien a casos mas generales, pero suelen ser mas complejos de implementar, o bien pueden tener peor complejidad en tiempo/espacio. En nuestro caso, dado que tenemos un grafo muy especial, decidimos aprovechar dicha regularidad. Ver [Algoritmo](#algoritmo) para mas detalles.
+En nuestro algoritmo de ruta optima, adaptamos **BFS** al caso en que las aristas del grafo [tienen costos  0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ). Esta estrategia *ad-hoc* nos entrega un algoritmo con complejidad `O(V+E)` bastante sencillo de implementar. Por el momento, descartamos algoritmos como **Dijkstra, Bellman-Ford o A***, que se adaptan muy bien a casos mas generales, pero suelen ser mas complejos de implementar, o bien pueden tener peor complejidad en tiempo/espacio. En nuestro caso, dado que tenemos un grafo muy especial, decidimos aprovechar dicha regularidad. Ver [Algoritmo](#algoritmo) para mas detalles.
 
 ## Input Red de Metro
 
@@ -49,9 +47,9 @@ El `schema` soportado para el `.json` es:
 El programa fallara si el schema no es válido. Ver `lib/utils/schemas/metro_network_schema.json`.
 
 
-### Setup
+## Setup
 
-La solución se implementa en **Ruby 2.7**. Al clonar este repositorio, se debe navegar al directorio del proyecto e instalar las dependencias del `Gemfile` usando  **bundler**:
+La solución se implementa en **Ruby 2.7**. Al clonar este repo, ir al directorio del proyecto e instalar las dependencias del `Gemfile` usando  **bundler**:
 
 ```sh
 bundle install
@@ -62,7 +60,7 @@ bin/setup
 ```
 
 
-### Ejecución
+## Ejecución
 
 Ejecutamos el código usando `bundle exec`
 
