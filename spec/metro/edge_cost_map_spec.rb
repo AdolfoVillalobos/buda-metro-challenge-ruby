@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Metro::EdgeCostMap do
+
   let(:train_color) { :NO }
   let(:stations) do
     [
@@ -12,9 +13,12 @@ RSpec.describe Metro::EdgeCostMap do
   end
 
   let(:graph) { Metro::MetroNetwork.build(*stations) }
-  let(:edge_cost_map) { described_class.new(graph) }
+  let(:edge_cost_map) { described_class.build(graph, train_color) }
 
   describe '#build' do
+    before do
+      described_class.build(graph, train_color)
+    end
     context 'when train has no color' do
       let(:output_cost_map) do
         {
@@ -29,7 +33,6 @@ RSpec.describe Metro::EdgeCostMap do
         }
       end
       it 'edge costs are 1' do
-        edge_cost_map.build(train_color)
         expect(edge_cost_map.cost_dict).to eq(output_cost_map)
       end
     end
@@ -49,7 +52,6 @@ RSpec.describe Metro::EdgeCostMap do
         }
       end
       it 'cost to unsupported stations is 0' do
-        edge_cost_map.build(train_color)
         expect(edge_cost_map.cost_dict).to eq(output_cost_map)
       end
     end
@@ -69,7 +71,6 @@ RSpec.describe Metro::EdgeCostMap do
         }
       end
       it 'cost to unsupported stations is 0' do
-        edge_cost_map.build(train_color)
         expect(edge_cost_map.cost_dict).to eq(output_cost_map)
       end
     end

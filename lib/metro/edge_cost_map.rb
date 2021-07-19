@@ -8,10 +8,8 @@ module Metro
   class EdgeCostMap
     attr_accessor :cost_dict
 
-    def initialize(graph)
+    def initialize
       @cost_dict = {}
-      @colors = graph.stations_color
-      @adjacencies = graph.stations_adjacency
     end
 
     # Calculates the cost of an edge depending on the color of the train
@@ -23,10 +21,10 @@ module Metro
     # In any other case, the train is not allowed to stop at target
     # and thus returns 0
 
-    def edge_cost(target, train_color)
+    def edge_cost(colors, target, train_color)
       return 1 if train_color == :NO
-      return 1 if train_color == @colors[target]
-      return 1 if @colors[target] == :NO
+      return 1 if train_color == colors[target]
+      return 1 if colors[target] == :NO
 
       0
     end
@@ -42,13 +40,15 @@ module Metro
     end
 
     # recalculates all the costs depending on the train color
-    def build(train_color)
-      @adjacencies.each do |station, adj_list|
+    def self.build(graph, train_color)
+      edge_map = new
+      graph.stations_adjacency.each do |station, adj_list|
         adj_list.each do |neighbor|
-          cost = edge_cost(neighbor, train_color)
-          add_edge_cost(station, neighbor, cost)
+          cost = edge_map.edge_cost(graph.stations_color, neighbor, train_color)
+          edge_map.add_edge_cost(station, neighbor, cost)
         end
       end
+      edge_map
     end
   end
 end
