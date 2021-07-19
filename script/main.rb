@@ -18,18 +18,14 @@ require 'metro/metro_network'
 # - Main outputs the results to the user
 class Main
   def self.run(args)
-    display_args(args)
     data = Metro::MetroNetworkParser.parse(args[:network_file])
     metro = Metro::MetroNetwork.build(*data)
     shortest_path_finder = Metro::MetroShortestPath.new(metro)
     path = shortest_path_finder.shortest_path(args[:source], args[:target],
                                               args[:train_color])
 
-    if path.empty?
-      puts "No routes fround from #{args[:source]} to #{args[:target]}"
-    else
-      puts "Best Route:\n\t #{path.join(' -> ')} "
-    end
+    return "No routes fround from #{args[:source]} to #{args[:target]}" if path.empty?
+    return "Best Route:\n\t #{path.join(' -> ')} "
   end
 
   def self.display_args(args)
@@ -45,5 +41,7 @@ end
 if $PROGRAM_NAME == __FILE__
 
   args = Metro::CommandLineParser.parse(ARGV)
-  Main.run(args)
+  Main.display_args(args)
+  out = Main.run(args)
+  puts out
 end
