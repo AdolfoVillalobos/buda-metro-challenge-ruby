@@ -16,6 +16,8 @@ module Metro
     end
 
     def shortest_path(source, target, train_color)
+      raise 'SOURCE station does not exist' unless @graph.has_station?(source)
+      raise 'TARGET station does not exist' unless @graph.has_station?(target)
       return [] if train_cant_start(source, train_color)
 
       setup(source)
