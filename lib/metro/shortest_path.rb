@@ -72,7 +72,7 @@ module Metro
     end
 
     def train_cant_start(source, train_color)
-      @graph.get_color(source) != 0 and train_color != 0 and train_color != @graph.get_color(source)
+      @graph.get_color(source) != :NO and train_color != :NO and train_color != @graph.get_color(source)
     end
   end
 end
