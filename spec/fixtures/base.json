@@ -3,52 +3,52 @@
     {
       "name": "A",
       "neighbors": ["B"],
-      "color": 0
+      "color": ""
     },
     {
       "name": "B",
       "neighbors": ["A", "C"],
-      "color": 0
+      "color": ""
     },
     {
       "name": "C",
       "neighbors": ["B", "D", "G"],
-      "color": 0
+      "color": "V"
     },
     {
       "name": "D",
       "neighbors": ["C", "E"],
-      "color": 0
+      "color": "V"
     },
     {
       "name": "E",
       "neighbors": ["D", "F"],
-      "color": 0
+      "color": ""
     },
     {
       "name": "F",
       "neighbors": ["E", "I"],
-      "color": 0
+      "color": ""
     },
     {
       "name": "G",
       "neighbors": ["C", "H"],
-      "color": 1
+      "color": "V"
     },
     {
       "name": "H",
       "neighbors": ["G", "I"],
-      "color": 2
+      "color": "R"
     },
     {
       "name": "I",
       "neighbors": ["H", "F"],
-      "color": 1
+      "color": "V"
     },
     {
       "name": "J",
       "neighbors": [],
-      "color": 0
+      "color": ""
     }
   ]
 }

@@ -9,9 +9,9 @@ module Metro
     end
 
     def edge_cost(target, train_color)
-      return 1 if train_color == 0
+      return 1 if train_color == :NO
       return 1 if train_color == @colors[target]
-      return 1 if @colors[target] == 0
+      return 1 if @colors[target] == :NO
 
       0
     end

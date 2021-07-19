@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe Metro::EdgeCostMap do
-  let(:train_color) { 0 }
+  let(:train_color) { :NO }
   let(:stations) do
     [
-      { name: 'A', neighbors: ['B'], color: 0 },
-      { name: 'B', neighbors: %w[A C], color: 1 },
-      { name: 'C', neighbors: %w[B D G], color: 2 },
-      { name: 'D', neighbors: %w[C E], color: 0 }
+      { name: 'A', neighbors: ['B'], color: :NO },
+      { name: 'B', neighbors: %w[A C], color: :GREEN },
+      { name: 'C', neighbors: %w[B D G], color: :RED },
+      { name: 'D', neighbors: %w[C E], color: :NO }
     ]
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Metro::EdgeCostMap do
     end
 
     context 'when train is green' do
-      let(:train_color) { 1 }
+      let(:train_color) { :GREEN }
       let(:output_cost_map) do
         {
           %w[A B] => 1,
@@ -55,7 +55,7 @@ RSpec.describe Metro::EdgeCostMap do
     end
 
     context 'when train is red' do
-      let(:train_color) { 2 }
+      let(:train_color) { :RED }
       let(:output_cost_map) do
         {
           %w[A B] => 0,

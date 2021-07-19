@@ -10,7 +10,7 @@ RSpec.describe Metro::CommandLineParser do
         let(:argv) { %w[-f data/base.json -s A -t F -c red] }
         let(:output) do
           {
-            train_color: 2,
+            train_color: :RED,
             network_file: 'data/base.json',
             source: 'A',
             target: 'F'
@@ -24,7 +24,7 @@ RSpec.describe Metro::CommandLineParser do
         let(:argv) { %w[-f data/base.json -s A -t F] }
         let(:output) do
           {
-            train_color: 0,
+            train_color: :NO,
             network_file: 'data/base.json',
             source: 'A',
             target: 'F'

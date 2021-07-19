@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Metro::MetroNetwork do
   let(:metro) { described_class.new }
-  let(:station) { { name: 'A', neighbors: %w[B C], color: 1 } }
+  let(:station) { { name: 'A', neighbors: %w[B C], color: :GREEN } }
 
   describe '#add_station' do
     it 'adds station' do
@@ -15,7 +15,7 @@ RSpec.describe Metro::MetroNetwork do
     it 'adds station color' do
       metro.add_station_color(station[:name], station[:color])
       expect(metro.stations_color).to have_key('A')
-      expect(metro.stations_color['A']).to eq(1)
+      expect(metro.stations_color['A']).to eq(:GREEN)
     end
   end
 
@@ -42,18 +42,18 @@ RSpec.describe Metro::MetroNetwork do
   describe '#build' do
     let(:stations) do
       [
-        { name: 'A', neighbors: %w[B C], color: 1 },
-        { name: 'B', neighbors: ['C'], color: 2 },
-        { name: 'C', neighbors: ['A'], color: 0 }
+        { name: 'A', neighbors: %w[B C], color: :GREEN },
+        { name: 'B', neighbors: ['C'], color: :RED },
+        { name: 'C', neighbors: ['A'], color: :NO }
       ]
     end
     let(:metro) { described_class.build(*stations) }
     it 'builds the stations of the MetroNetwork' do
       expect(metro.stations_adjacency).to include('A', 'B', 'C')
       expect(metro.stations_color).to include('A', 'B', 'C')
-      expect(metro.stations_color['A']).to eq(1)
-      expect(metro.stations_color['B']).to eq(2)
-      expect(metro.stations_color['C']).to eq(0)
+      expect(metro.stations_color['A']).to eq(:GREEN)
+      expect(metro.stations_color['B']).to eq(:RED)
+      expect(metro.stations_color['C']).to eq(:NO)
     end
 
     it 'builds the edges of the MetroNetwork' do
