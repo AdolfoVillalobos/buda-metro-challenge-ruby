@@ -8,9 +8,9 @@
 
 En este proyecto se implementa un programa para encontrar **la ruta con menor cantidad de estaciones** entre dos estaciones `A` y `B` de una **Red de Metro**.
 
-En esta red de tren, el **color del tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas.
+En esta red de tren, el **Color del Tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas.
 
-Buscamos diseñar un algoritmo de **ruta óptima** que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible.
+Buscamos diseñar un algoritmo de **Ruta Óptima** que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible.
 
  ## La Solución y Desiciones de Diseño
 
@@ -140,7 +140,7 @@ bundle exec rspec -fd
 Las restricciones nos permiten modelar el problema usando un grafo dirigido y encontrar la ruta  con menos estaciones usando una adaptación de **BFS** para el caso especial en que [los costos de viaje entre nodos son son 0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ).
 
 
-Su complejidad es `O(V+E)`, menor en comparación a algoritmos mas generales como [**Dijkstra**](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) (complejidad `O((V+E) log(E))`) o [**Bellman-Ford**](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm) (complejidad `O(VE)`). Esto lo logra imitando el `Heap` de  **Dijkstra**  al usar una **Deque** para recorrer las aristas vecinas, lo cual permite dar prioridad a aquellos vecinos a costo 0 que nos permiten saltarnos estaciones [(ref)](https://cp-algorithms.com/graph/01_bfs.html).
+La complejidad de **BFS** es `O(V+E)`.  Esta complejidad es menor en comparación a algoritmos mas generales como [**Dijkstra**](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) (complejidad `O((V+E) log(E))`) o [**Bellman-Ford**](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm) (complejidad `O(VE)`). Esta cota se logra imitando el `Heap` de  **Dijkstra** al usar una **Deque** para recorrer las aristas vecinas, lo cual permite dar prioridad a aquellos vecinos a costo 0 que nos permiten saltarnos estaciones [(ref)](https://cp-algorithms.com/graph/01_bfs.html).
 
 En un escenario mas general, por ejemplo con tiempos variables de viaje de una estación a otra,  **Dijkstra**  o [**A***](https://en.wikipedia.org/wiki/A*_search_algorithm#:~:text=A*%20is%20an%20informed%20search,shortest%20time%2C%20etc.) podrían ser una mejor alternativa.
 
@@ -156,7 +156,7 @@ En un escenario mas general, por ejemplo con tiempos variables de viaje de una e
 
 1. `Metro::CommandLineParser`: Procesa y valida el input de la linea de comandos.
 2. `Metro::MetroNetworkParser`: Procesa el `.json` de la red de metro.
-3. `Metro::RecoverPath`: Recupera recursivamente la ruta optima a partir de un hash de nodos antecesores.
+3. `Metro::RecoverPath`: Recupera recursivamente la ruta óptima a partir de un hash de nodos antecesores.
 
 
 ## Referencias
