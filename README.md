@@ -6,22 +6,31 @@
 
 ### El Problema
 
-En este proyecto se implementa un programa para encontrar **la ruta con menor cantidad de estaciones** entre dos estaciones `A` y `B` de una **Red de Metro**.
-
-En esta red de tren, el **Color del Tren** puede restringir las estaciones en las cuales este puede detenerse, y por lo tanto influirá en la ruta con menos paradas.
-
-Buscamos diseñar un algoritmo de **Ruta Óptima** que permita el salto de estaciones por parte del tren, modificamos el costo de esas aristas a 0, priorizando rutas en donde el tren pare lo menos posible.
-
- ## La Solución y Desiciones de Diseño
-
- Resolvemos el problema usando una adaptación de un algoritmo tipo [**Breadth First Search (BFS)**](https://en.wikipedia.org/wiki/Breadth-first_search). Para ello, modelamos la **Red de Metro** como un grafo dirigido `G(V,E)` en donde las estaciones de metro `V` son de color: `verde`, `rojo` o `sin color`.
-
-El grafo se representa a través de una **Lista de Adjacencia** como estructura de datos  pues esto permite implementar **BFS** de manera muy sencilla para encontrar rutas mas cortas. Guardamos estas listas en archivos `.json`. Estos archivos son sencillos de leer y validar de manera confiable en Ruby.
-
-En nuestro algoritmo de ruta óptima, adaptamos **BFS** al caso en que las aristas del grafo [tienen costos  0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ). Esta estrategia *ad-hoc* nos entrega un algoritmo con complejidad `O(V+E)` bastante sencillo de implementar.
+En esta Tarea se considera una **Red de Metro**. El objetivo es diseñar un algoritmo que encuentre la **ruta con menor cantidad de estaciones** entre dos estaciones `A` (origen) y `B` (destino).
 
 
-Por el momento, descartamos algoritmos como **Dijkstra, Bellman-Ford o A***, que se adaptan muy bien a casos mas generales, pero suelen ser mas complejos de implementar, o bien pueden tener peor complejidad en tiempo/espacio. En nuestro caso, dado que tenemos un grafo muy especial, decidimos aprovechar dicha regularidad. Ver [Algoritmo](#algoritmo) para mas detalles.
+Una dificultad adicional es que en esta **Red de Metro** existe una coloración de los trenes y las estaciones de metro - el **Color del Tren** puede restringir las estaciones en las cuales este puede detenerse - y por lo tanto, la coloración influirá en la ruta con menos paradas.
+
+Decidimos abordar la Tarea diseñando un algoritmo de **Ruta Óptima en un Grafo** que permita el salto de estaciones por parte del tren.
+
+ ## Desiciones de Diseño
+
+ ### Modelación y Algoritmo
+
+ Resolvemos el problema de **Ruta Óptima en un Grafo** usando una adaptación de un algoritmo tipo [**Breadth First Search (BFS)**](https://en.wikipedia.org/wiki/Breadth-first_search). Para ello, modelamos la **Red de Metro** como un **grafo dirigido** `G(V,E)` en donde las estaciones de metro `V` son de color: `verde`, `rojo` o `sin color`.
+
+En nuestro algoritmo de ruta óptima, adaptamos **BFS** al caso en que las aristas del grafo [tienen costos  0 o 1](https://www.geeksforgeeks.org/0-1-bfs-shortest-path-binary-graph/ ). Esta **selección de costos** le permitirá al tren visitar estaciones a costo 0, lo cual es equivalente a **saltarse una estación**, si es que el color del tren lo permite.
+
+### Estructura de Datos
+La **Estructura de Datos** utilizada para representar el **La Red de Metro** `G(V, E)` es una **Lista de Adjacencia**. Esto permite implementar **BFS** de manera muy sencilla para encontrar rutas mas cortas.
+
+ Representamos la **Lista de Adjacencia** en archivos `.json`. Estos archivos son sencillos de leer y validar de manera confiable en Ruby.
+
+### Complejidad Computacional
+
+Esta estrategia *ad-hoc* nos entrega un algoritmo con complejidad `O(V+E)` bastante sencillo de implementar.
+
+Descartamos algoritmos populares de **Ruta Óptima** como **Dijkstra, Bellman-Ford o A***. Ellos se adaptan muy bien a casos mas generales, pero suelen ser mas complejos de implementar, o bien pueden tener peor complejidad en tiempo/espacio. En nuestro caso, dado que tenemos un grafo muy especial, decidimos aprovechar dicha regularidad. Ver [Algoritmo](#algoritmo) para más detalles.
 
 ## Input Red de Metro
 

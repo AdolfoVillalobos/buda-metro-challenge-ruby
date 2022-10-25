@@ -7,7 +7,7 @@ module Metro
   # a directed graph using an adjacency lists data structure.
   #
   # Using adjacency list as the core data structure simplifies
-  # the implementation of breadth first search algorithms we use
+  # the implementation of Breadth First Search (BFS) algorithms we use
   # to find the shortest path
   #
   # Additionally, the graph keeps track of station color, relevant
