@@ -1,0 +1,10 @@
+version: "3.2"
+
+services:
+  app:
+    build: .
+    working_dir: /app
+    volumes:
+      - type: bind
+        source: ./data
+        target: /app/data
